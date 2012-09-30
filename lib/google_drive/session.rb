@@ -28,7 +28,7 @@ module GoogleDrive
         include(Util)
         extend(Util)
 
-        UPLOAD_CHUNK_SIZE = 256 * 1024
+        UPLOAD_CHUNK_SIZE = 5 * 1024 * 1024
 
         # The same as GoogleDrive.login.
         def self.login(mail, password, proxy = nil)
