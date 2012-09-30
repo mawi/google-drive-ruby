@@ -9,7 +9,7 @@ Net::HTTP.version_1_2
 module GoogleDrive
 
     class ClientLoginFetcher #:nodoc:
-        
+
         def initialize(auth_tokens, proxy)
           @auth_tokens = auth_tokens
           if proxy
@@ -21,13 +21,14 @@ module GoogleDrive
             @proxy = Net::HTTP
           end
         end
-        
+
         attr_accessor(:auth_tokens)
-        
+
         def request_raw(method, url, data, extra_header, auth)
           uri = URI.parse(url)
           http = @proxy.new(uri.host, uri.port)
           http.use_ssl = true
+          http.read_timeout = 1200
           http.verify_mode = OpenSSL::SSL::VERIFY_NONE
           http.start() do
             path = uri.path + (uri.query ? "?#{uri.query}" : "")
@@ -39,9 +40,9 @@ module GoogleDrive
             end
           end
         end
-        
+
       private
-        
+
         def auth_header(auth)
           token = auth == :none ? nil : @auth_tokens[auth]
           if token
@@ -52,5 +53,5 @@ module GoogleDrive
         end
 
     end
-    
+
 end
